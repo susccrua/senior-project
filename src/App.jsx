@@ -1,12 +1,7 @@
 import { Suspense, useRef, useState, useMemo } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Physics, RigidBody, Debug, CuboidCollider } from "@react-three/rapier";
-import {
-  Environment,
-  OrbitControls,
-  Reflector,
-  MeshReflectorMaterial,
-} from "@react-three/drei";
+import { Environment, Reflector, Center, Text3D } from "@react-three/drei";
 import CameraControls from "camera-controls";
 
 import "./App.css";
@@ -45,8 +40,8 @@ function Controls({
   const gl = useThree((state) => state.gl);
   const controls = useMemo(() => new CameraControls(camera, gl.domElement), []);
   return useFrame((state, delta) => {
-    zoom ? pos.set(focus.x, focus.y, focus.z + 0.2) : pos.set(0, 0, 5);
-    zoom ? look.set(focus.x, focus.y, focus.z - 0.2) : look.set(0, 0, 4);
+    zoom ? pos.set(focus.x, focus.y, focus.z + 4) : pos.set(20, 10, 5);
+    zoom ? look.set(focus.x, focus.y, focus.z - 6) : look.set(-5, 9, -15);
 
     state.camera.position.lerp(pos, 0.5);
     state.camera.updateProjectionMatrix();
@@ -65,9 +60,10 @@ function Controls({
 }
 
 function App() {
-  const macRef = useRef();
   const [zoom, setZoom] = useState(false);
   const [focus, setFocus] = useState({});
+
+  const zoomToView = (focusRef) => (setZoom(!zoom), setFocus(focusRef));
   return (
     <>
       {/* <OrbitControls /> */}
@@ -78,15 +74,35 @@ function App() {
         <ambientLight intensity={1} />
         <Environment preset="warehouse" />
 
+        {/* Title */}
+        <Center top left position={[-2, 13, -2]} rotation={[0, 2, 0]}>
+          <Text3D
+            font="./public/fonts/Platinum Sign Over_Regular.json"
+            scale={1}
+            lineHeight={2}
+          >
+            {"susana's".toUpperCase()}
+            <meshBasicMaterial height={2} color="white" />
+          </Text3D>
+          <Text3D
+            position-z={-2}
+            font="./fonts/Platinum Sign Over_Regular.json"
+            scale={0.5}
+            lineHeight={2}
+          >
+            {"senior project".toUpperCase()}
+            <meshBasicMaterial height={2} color="white" />
+          </Text3D>
+        </Center>
+
         {/* Objects */}
         <Physics>
           <Debug />
-          <Macbook ref={macRef} />
-          <Monitor macRef={macRef} />
+          <Macbook />
+          <Monitor zoomToView={zoomToView} />
+
           <Tables />
-          <Printers
-            zoomToView={(focusRef) => (setZoom(!zoom), setFocus(focusRef))}
-          />
+          <Printers zoomToView={zoomToView} />
           <Controls zoom={zoom} focus={focus} />
           {/* Floor Collider */}
           <RigidBody type="fixed">
@@ -95,8 +111,11 @@ function App() {
           {/* Sphere */}
 
           <mesh
-            position={[0, 1, 0]}
-            onClick={(e) => zoomToView(e.object.position)}
+            position={[-3, 1, 0 - 3]}
+            onClick={(e) => {
+              console.log("clicked sphere");
+              setZoom(!zoom), setFocus(e.object.position);
+            }}
           >
             <sphereGeometry />
           </mesh>
