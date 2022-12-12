@@ -1,0 +1,11 @@
+Model Information:
+* title:	Epson 4750 Printer
+* source:	https://sketchfab.com/3d-models/epson-4750-printer-6757a9bb399140fdb7e1061e124aacb0
+* author:	tvanbreda (https://sketchfab.com/tvanbreda)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Epson 4750 Printer" (https://sketchfab.com/3d-models/epson-4750-printer-6757a9bb399140fdb7e1061e124aacb0) by tvanbreda (https://sketchfab.com/tvanbreda) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
